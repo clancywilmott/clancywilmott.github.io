@@ -2,45 +2,57 @@
 var myConnector = tableau.makeConnector();
 myConnector.getSchema = function (schemaCallback) {
 var cols = [
-{ id : "date", alias:"Date", dataType : tableau.dataTypeEnum.string },
-{ id : "trips", alias: "Trips Per Day",dataType : tableau.dataTypeEnum.string },
-{ id : "farebox",alias: "Farebox Per Day", dataType : tableau.dataTypeEnum.string },
-{ id : "uniquemed",alias: "Unique Medallions", dataType : tableau.dataTypeEnum.string },
-{ id : "uniquedrivers", alias: "Unique Drivers", dataType : tableau.dataTypeEnum.string},
-{ id : "medperday", alias: "Medallions Per Day", dataType : tableau.dataTypeEnum.string },
-{ id : "avg1", alias: "Average Days Medallions On Road",  dataType : tableau.dataTypeEnum.string },
-{ id : "avg2", alias: "Avg Hours Per Day Per Medallion",  dataType : tableau.dataTypeEnum.string},
-{ id : "avg3", alias:"Avg Days Drivers on Road",  dataType : tableau.dataTypeEnum.string},
-{ id : "avg4", alias:"Avg Hours Per Day Per Driver", dataType : tableau.dataTypeEnum.string},
-{ id : "avg5", alias: "Avg Minutes Per Trip",  dataType : tableau.dataTypeEnum.string},
-{ id : "cc", alias: "Percent of Trips Paid with Credit Card", dataType : tableau.dataTypeEnum.string}
+{ id : "location", alias:"Location", dataType : tableau.dataTypeEnum.string },
+{ id : "date",alias: "Date", dataType : tableau.dataTypeEnum.date },
+{ id : "totalcases",alias: "Total Cases", dataType : tableau.dataTypeEnum.float},
+{ id : "newcases",alias: "New Cases", dataType : tableau.dataTypeEnum.float},
+{ id : "totaldeaths", alias: "Total Deaths",dataType : tableau.dataTypeEnum.float },
+{ id : "newdeaths", alias: "New Deaths",dataType : tableau.dataTypeEnum.float },
+{ id : "totalcasesspermillion", alias: "Total Cases Per Million",dataType : tableau.dataTypeEnum.float },
+{ id : "newcasespermillion", alias: "New Cases Per Million",dataType : tableau.dataTypeEnum.float },
+{ id : "totaldeathspermillion",alias: "Total Deaths Per Million", dataType : tableau.dataTypeEnum.float },
+{ id : "newdeathspermillion", alias: "News Deaths Per Million",dataType : tableau.dataTypeEnum.float },
+{ id : "stringencyindex", alias: "Stringency Index",dataType : tableau.dataTypeEnum.float },
+{ id : "population", alias: "Population", dataType : tableau.dataTypeEnum.float},
+{ id : "populationdensity", alias: "Population Density",dataType : tableau.dataTypeEnum.float },
+{ id : "medianage", alias: "Median Age",dataType : tableau.dataTypeEnum.float },
+{ id : "65older", alias: "Age 65 or older",dataType : tableau.dataTypeEnum.float },
+{ id : "70older", alias: "Age 70 or older",dataType : tableau.dataTypeEnum.float },
+{ id : "gdppercapita", alias: "GDP Per Capita",dataType : tableau.dataTypeEnum.float },
+{ id : "diabetesprevalence", alias: "Diabetes Prevalence",dataType : tableau.dataTypeEnum.float }
 ];
 var tableInfo = {
-id : "taxi",
-alias : "TLC Trip Data",
+id : "covid19",
+alias : "Covid19",
 columns : cols
 };
 schemaCallback([tableInfo]);
 };
 myConnector.getData = function(table, doneCallback) {
-$.getJSON("http://www.nyc.gov/html/tlc/downloads/csv/data_reports_mont  hly_indicators_yellow.json ", function(resp) {
+$.getJSON("https://covid.ourworldindata.org/data/owid-covid-data.json", function(resp) {
 var feat = resp;
 tableData = [];
 // Iterate over the JSON object
 for (var i = 0, len = feat.length; i < len; i++) {
 tableData.push({
-"date": feat[i]["Month"]["Year"],
-"trips": feat[i]["Trips Per Day"],
-"farebox": feat[i] ["Farebox Per Day"],
-"uniquemed": feat[i] ["Unique Medallions"],
-"uniquedrivers": feat[i] ["Unique Drivers"],
-"medperday": feat[i] ["Medallions Per Day"],
-"avg1": feat[i] ["Avg Days Medallions on Road"],
-"avg2": feat[i] ["Avg Hours Per Day Per Medallion"] ,
-"avg3": feat[i] ["Avg Days Drivers on Road"],
-"avg4": feat[i] ["Avg Hours Per Day Per Driver"],
-"avg5": feat[i] ["Avg Minutes Per Trip"],
-"cc": feat[i] ["Percent of Trips Paid with Credit Card"]
+"location": feat[i]["location"],
+"date": feat[i]["date"],
+"totalcases": feat[i] ["total_cases"],
+"newcases": feat[i] ["new_cases"],
+"totaldeaths": feat[i] ["total_deaths"],
+"newdeaths": feat[i] ["new_deaths"],
+"totalcasesspermillion": feat[i] ["total_cases_per_million"],
+"newcasespermillion": feat[i] ["new_cases_per_million"],
+"totaldeathspermillion": feat[i] ["total_deaths_per_million"],
+"newdeathspermillion": feat[i] ["new_deaths_per_million"],
+"stringencyindex": feat[i] ["stringency_index"],
+"population": feat[i] ["population"],
+"populationdensity": feat[i] ["population_density"],
+"medianage": feat[i] ["median_age"],
+"65older": feat[i] ["aged_65_older"],
+"70older": feat[i] ["aged_70_older"],
+"gdppercapita": feat[i] ["gdp_per_capita"],
+"diabetesprevalence": feat[i] ["diabetes_prevalence"]
 });
 }
 table.appendRows(tableData);
@@ -50,7 +62,7 @@ doneCallback();
 tableau.registerConnector(myConnector);
 $(document).ready(function () {
 $("#submitButton").click(function () {
-tableau.connectionName = "taxi";
+tableau.connectionName = "covid19";
 tableau.submit();
 });
 });})();
