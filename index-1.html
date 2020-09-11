@@ -1,19 +1,20 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <!--This is how you comment for html-->
 <html lang="en" dir="ltr">
 <head>
-  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <meta charset="utf-8">
   <title> My Map </title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
   <style>
   /*this CSS section is where you style your page*/
   /*this is how you comment in CSS*/
   body { margin: 0; padding: 0; }
   #map { position: absolute; top: 0; bottom: 0; width: 100%; }
   </style>
-</head>
-<body>
   <div id='map'></div>
   <script>
   mapboxgl.accessToken = 'pk.eyJ1IjoiY3dpbG1vdHQiLCJhIjoiY2s2bWRjb2tiMG1xMjNqcDZkbGNjcjVraiJ9.2nNOYL23A1cfZSE4hdC9ew';
@@ -45,86 +46,36 @@
           {
             'type': 'Feature',
             'properties': {
-              'title': '<p>Abandoned Building<p/>',
-              'description': '<p>This block was bought by Nuffield Health and then abandoned.</p>',
+              'description': '<p>Example of a point.</p>',
             },
             'geometry': {
               'type': 'Point',
-              'coordinates': [
-                -2.2210101,
-                53.458385
-              ]
+              'coordinates': [-2.219255, 53.457215]
             }
           },
           {
             'type': 'Feature',
             'properties': {
-              'title': 'Abandoned House',
-              'description': 'This house has been boarded up for three years now. Foxes live there.'
+              'description': '<p>Example of a second point.</p>',
             },
             'geometry': {
               'type': 'Point',
-              'coordinates': [
-                -2.2201326,
-                53.456842
-              ]
-            }
-          },
-          {
-            'type': 'Feature',
-            'properties': {
-              'title': 'Squirrel',
-              'description': 'A fat grey squirrel who was not afraid of people.'
-            },
-            'geometry': {
-              'type': 'Point',
-              'coordinates': [
-                -2.2199295,
-                53.456497
-              ]
-            }
-          },
-          {
-            'type': 'Feature',
-            'properties': {
-              'title': 'Old Tree',
-              'description': 'This tree is really gnarly and old.'
-            },
-            'geometry': {
-              'type': 'Point',
-              'coordinates': [
-                -2.2161992,
-                53.455239
-              ]
-            }
-          },
-          {
-            'type': 'Feature',
-            'properties': {
-              'title': 'Graffiti',
-              'description': '\"Complacency is latency\\\"'
-            },
-            'geometry': {
-              'type': 'Point',
-              'coordinates': [
-                -2.2170511,
-                53.45581
-              ]
+              'coordinates': [-2.219371, 53.457349]
             }
           }
+
         ]
       }
     });
-    // Add a layer showing the places.
-      map.addLayer({
-          'id': 'places',
-          'type': 'symbol',
-          'source': 'places',
-          'layout': {
-              'icon-image': 'marker-stroked-15',
-              'icon-allow-overlap': true
-          }
-      });
+    map.addLayer({
+      'id': 'places',
+      'type': 'symbol',
+      'source': 'places',
+      'layout': {
+        'icon-image': 'marker-stroked-15',
+        'icon-allow-overlap': true
+      }
+    });
   });
 
 </script>
