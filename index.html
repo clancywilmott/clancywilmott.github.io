@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--This is how you comment for html-->
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title> My Map </title>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+  /*this CSS section is where you style your page*/
+  /*this is how you comment in CSS*/
+  body { margin: 0; padding: 0; }
+  #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  .mapboxgl-popup {
+            max-width: 400px;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+          }
+  </style>
+</head>
+<body>
+  <div id='map'></div>
+  <script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiY3dpbG1vdHQiLCJhIjoiY2s2bWRjb2tiMG1xMjNqcDZkbGNjcjVraiJ9.2nNOYL23A1cfZSE4hdC9ew';
+
+  //Call in your Map
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/cwilmott/ckeziui8m0zt819o3y5w89gtk'
+  });
+  // Initialize the geolocate control.
+  var geolocate = new mapboxgl.GeolocateControl({
+    positionOptions: {
+      enableHighAccuracy: true
+    },
+    trackUserLocation: true
+  });
+
+  // Add the control to the map.
+  map.addControl(geolocate);
+  map.on('load', function() {
+    geolocate.trigger();
+    map.addSource('places', {
+      'type': 'geojson',
+      'data': {
+        'type': 'FeatureCollection',
+        'features': [
+          {
+            'type': 'Feature',
+            'properties': {
+              'title': 'Abandoned Building',
+              'description': 'This block was bought by Nuffield Health and then abandoned.'
+            },
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+                -2.2210101,
+                53.458385
+              ]
+            }
+          },
+          {
+            'type': 'Feature',
+            'properties': {
+              'title': 'Abandoned House',
+              'description': 'This house has been boarded up for three years now. Foxes live there.'
+            },
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+                -2.2201326,
+                53.456842
+              ]
+            }
+          },
+          {
+            'type': 'Feature',
+            'properties': {
+              'title': 'Squirrel',
+              'description': 'A fat grey squirrel who was not afraid of people.'
+            },
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+                -2.2199295,
+                53.456497
+              ]
+            }
+          },
+          {
+            'type': 'Feature',
+            'properties': {
+              'title': 'Old Tree',
+              'description': 'This tree is really gnarly and old.'
+            },
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+                -2.2161992,
+                53.455239
+              ]
+            }
+          },
+          {
+            'type': 'Feature',
+            'properties': {
+              'title': 'Graffiti',
+              'description': '\"Complacency is latency\\\"'
+            },
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [
+                -2.2170511,
+                53.45581
+              ]
+            }
+          }
+        ]
+      }
+    }); //features
+    // Add a layer showing the places.
+      map.addLayer({
+          'id': 'places',
+          'type': 'symbol',
+          'source': 'places',
+          'layout': {
+              'icon-image': 'mobile-phone-15',
+              'icon-allow-overlap': true
+          }
+      });
+  }); // mapOnLoad
+  // When a click event occurs on a feature in the places layer, open a popup at the
+      // location of the feature, with description HTML from its properties.
+      map.on('click', 'places', function(e) {
+          var coordinates = e.features[0].geometry.coordinates.slice();
+          var description = e.features[0].properties.description;
+          var title = e.features[0].properties.title;
+
+          new mapboxgl.Popup()
+              .setLngLat(coordinates)
+              .setHTML('<h2>' + title + '</h2>' + description)
+              .addTo(map);
+      });
+  </script>
+</body>
+</html>
